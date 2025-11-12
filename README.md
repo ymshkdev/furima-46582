@@ -1,24 +1,69 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
+| Column             | Type   | Options                   |
+| ------------------ | ------ | -----------               |
+| name               | string | null: false               |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
 
-Things you may want to cover:
+### Association
+has_many :items
+has_many :comments
+has_many :orders, foreign_key: :buyer_id
 
-* Ruby version
+## items テーブル
 
-* System dependencies
+| Column     | Type       | Options                        |
+| ------     | ------     | -----------                    |
+| name       | string     | null: false                    |
+| img_url    | string     | null: false                    |
+| user       | references | null: false, foreign_key: true |
+| description| string     | null: false                    |
+| price      | integer    | null: false                    |
 
-* Configuration
 
-* Database creation
+### Association
+belongs_to :user
+has_many :comments
+has_one :order
 
-* Database initialization
+## comments テーブル
 
-* How to run the test suite
+| Column  | Type       | Options                        |
+| ------- | ---------- | ------------------------------ |
+| content | text       | null: false                    |
+| user    | references | null: false, foreign_key: true |
+| item    | references | null: false, foreign_key: true |
 
-* Services (job queues, cache servers, search engines, etc.)
+### Association
+belongs_to :user
+belongs_to :item
 
-* Deployment instructions
+## orders テーブル
 
-* ...
+| Column  | Type       | Options                                          |
+| ------- | ---------- | ------------------------------                   |
+| buyer   | references | null: false, foreign_key: { to_table: :users }   |
+| item    | references | null: false, foreign_key: true                   |
+| status  | string     | default: "pending"                               |
+
+### Association
+belongs_to :buyer, class_name: "User"
+belongs_to :item
+has_one :address
+
+## addresses テーブル
+
+| Column       | Type       | Options                        |
+| -------      | ---------- | ------------------------------ |
+| postal_code  | string     | null: false                    |
+| prefecture   | string     | null: false                    |
+| city         | string     | null: false                    |
+| street       | string     | null: false                    |
+| building     | string     |                                |
+| phone_number | string     | null: false                    |
+| order        | references | null: false, foreign_key: true |
+
+### Association
+belongs_to :order
