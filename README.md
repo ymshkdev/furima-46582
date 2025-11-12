@@ -3,42 +3,40 @@
 ## users テーブル
 | Column             | Type   | Options                   |
 | ------------------ | ------ | -----------               |
-| name               | string | null: false               |
+| nickname           | string | null: false               |
 | email              | string | null: false, unique: true |
 | encrypted_password | string | null: false               |
+| last_name          | string | null: false               |
+| first_name         | string | null: false               |
+| last_name_kana     | string | null: false               |
+| first_name_kana    | string | null: false               |
+| birth_date         | date   | null: false               |
+
 
 ### Association
 has_many :items
-has_many :comments
 has_many :orders, foreign_key: :buyer_id
 
 ## items テーブル
 
-| Column     | Type       | Options                        |
-| ------     | ------     | -----------                    |
-| name       | string     | null: false                    |
-| img_url    | string     | null: false                    |
-| user       | references | null: false, foreign_key: true |
-| description| string     | null: false                    |
-| price      | integer    | null: false                    |
-
+| Column              | Type       | Options                        |
+| ------              | ------     | -----------                    |
+| name                | string     | null: false                    |
+| user                | references | null: false, foreign_key: true |
+| category            | string     | null: false                    |
+| description         | text       | null: false                    |
+| condition           | string     | null: false                    |
+| status              | string     | default: "on_sale"             |
+| price               | integer    | null: false                    |
+| shipping_fee_burden | string     | null: false                    |
+| prefecture          | string     | null: false                    |
+| shipping_day        | string     | null: false                    |
 
 ### Association
 belongs_to :user
-has_many :comments
+has_one_attached :image
 has_one :order
 
-## comments テーブル
-
-| Column  | Type       | Options                        |
-| ------- | ---------- | ------------------------------ |
-| content | text       | null: false                    |
-| user    | references | null: false, foreign_key: true |
-| item    | references | null: false, foreign_key: true |
-
-### Association
-belongs_to :user
-belongs_to :item
 
 ## orders テーブル
 
@@ -46,7 +44,6 @@ belongs_to :item
 | ------- | ---------- | ------------------------------                   |
 | buyer   | references | null: false, foreign_key: { to_table: :users }   |
 | item    | references | null: false, foreign_key: true                   |
-| status  | string     | default: "pending"                               |
 
 ### Association
 belongs_to :buyer, class_name: "User"
@@ -58,7 +55,7 @@ has_one :address
 | Column       | Type       | Options                        |
 | -------      | ---------- | ------------------------------ |
 | postal_code  | string     | null: false                    |
-| prefecture   | string     | null: false                    |
+| prefecture_id| integer    | null: false                    |
 | city         | string     | null: false                    |
 | street       | string     | null: false                    |
 | building     | string     |                                |
