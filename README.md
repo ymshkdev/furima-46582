@@ -24,13 +24,12 @@ has_many :orders
 | user                   | references | null: false, foreign_key: true |
 | title                  | string     | null: false                    |
 | description            | text       | null: false                    |
-| category_id            | string     | null: false                    |
-| condition_id           | string     | null: false                    |
-| shipping_fee_burden_id | string     | null: false                    |
-| prefecture_id          | string     | null: false                    |
-| shipping_day_id        | string     | null: false                    |
+| category_id            | integer    | null: false                    |
+| condition_id           | integer    | null: false                    |
+| shipping_fee_burden_id | integer    | null: false                    |
+| prefecture_id          | integer    | null: false                    |
+| shipping_day_id        | integer    | null: false                    |
 | price                  | integer    | null: false                    |
-| status                 | string     | null: false                    |
 
 ### Association
 belongs_to :user
