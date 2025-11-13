@@ -15,22 +15,22 @@
 
 ### Association
 has_many :items
-has_many :orders, foreign_key: :buyer_id
+has_many :orders
 
 ## items テーブル
 
-| Column              | Type       | Options                        |
-| ------              | ------     | -----------                    |
-| name                | string     | null: false                    |
-| user                | references | null: false, foreign_key: true |
-| category            | string     | null: false                    |
-| description         | text       | null: false                    |
-| condition           | string     | null: false                    |
-| status              | string     | default: "on_sale"             |
-| price               | integer    | null: false                    |
-| shipping_fee_burden | string     | null: false                    |
-| prefecture          | string     | null: false                    |
-| shipping_day        | string     | null: false                    |
+| Column                 | Type       | Options                        |
+| ------                 | ------     | -----------                    |
+| user                   | references | null: false, foreign_key: true |
+| title                  | string     | null: false                    |
+| description            | text       | null: false                    |
+| category_id            | string     | null: false                    |
+| condition_id           | string     | null: false                    |
+| shipping_fee_burden_id | string     | null: false                    |
+| prefecture_id          | string     | null: false                    |
+| shipping_day_id        | string     | null: false                    |
+| price                  | integer    | null: false                    |
+| status                 | string     | null: false                    |
 
 ### Association
 belongs_to :user
@@ -42,11 +42,11 @@ has_one :order
 
 | Column  | Type       | Options                                          |
 | ------- | ---------- | ------------------------------                   |
-| buyer   | references | null: false, foreign_key: { to_table: :users }   |
+| user    | references | null: false, foreign_key: true                   |
 | item    | references | null: false, foreign_key: true                   |
 
 ### Association
-belongs_to :buyer, class_name: "User"
+belongs_to :user
 belongs_to :item
 has_one :address
 
