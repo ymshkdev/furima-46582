@@ -41,6 +41,24 @@ RSpec.describe User, type: :model do
     @user.valid?
     expect(@user.errors.full_messages).to include("Password is too long (maximum is 128 characters)")
    end
+   it "passwordが数字のみでは登録できない" do
+    @user.password = '123456'
+    @user.password_confirmation = '123456'
+    @user.valid?
+    expect(@user.errors.full_messages).to include("Password は英字と数字の両方を含め、半角で設定してください")
+   end
+   it "passwordが英字のみでは登録できない" do
+    @user.password = 'abcdef'
+    @user.password_confirmation = 'abcdef'
+    @user.valid?
+    expect(@user.errors.full_messages).to include("Password は英字と数字の両方を含め、半角で設定してください")
+   end
+   it "passwordに全角文字が含まれていると登録できない" do
+    @user.password = 'ＡＢＣ１２３'
+    @user.password_confirmation = 'ＡＢＣ１２３'
+    @user.valid?
+    expect(@user.errors.full_messages).to include("Password は英字と数字の両方を含め、半角で設定してください")
+   end
    it 'passwordとpassword_confirmationが不一致では登録できない' do
     @user.password = '123456'
     @user.password_confirmation = '654321'
@@ -48,8 +66,9 @@ RSpec.describe User, type: :model do
     expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
    end
    it '重複したemailが存在する場合は登録できない' do
+    @user.email = "test@example.com"
     @user.save
-    another_user = FactoryBot.build(:user, email: @user.email)
+    another_user = FactoryBot.build(:user, email: "test@example.com")
     another_user.valid?
     expect(another_user.errors.full_messages).to include('Email has already been taken')
    end
