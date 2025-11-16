@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
-  
+
   def index
     @items = Item.all
   end
@@ -10,9 +10,9 @@ class ItemsController < ApplicationController
    # フォーム用にActiveHashを呼び出す
    @categories = Category.all
    @conditions = Condition.all
-   @shipping_fee_burdens = Shipping_fee_burden.all
+   @shipping_fee_burdens = ShippingFeeBurden.all
    @prefectures = Prefecture.all
-   @shipping_days = Shipping_day.all
+   @shipping_days = ShippingDay.all
   end
 
   def create
@@ -26,7 +26,7 @@ class ItemsController < ApplicationController
     @shipping_fee_burdens = ShippingFeeBurden.all
     @prefectures = Prefecture.all
     @shipping_days = ShippingDay.all
-    render :new
+    render :new, status: :unprocessable_entity
     end
   end
 
