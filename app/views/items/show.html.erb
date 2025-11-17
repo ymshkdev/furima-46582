@@ -4,10 +4,11 @@
 <div class="item-show">
   <div class="item-box">
     <h2 class="name">
-      <%= @item.title %>
+      <%= "商品名" %> <!--@item.title-->
+      
     </h2>
     <div class="item-img-content">
-      <%= image_tag @item.image,class:"item-box-img" if @item.image.attached? %>
+      <%= image_tag "item-sample.png" ,class:"item-box-img" ,class:"item-box-img" if @item.image.attached? %> <!--@item.image-->
       <%# 商品が売れている場合は、sold outを表示しましょう %>
       <!-- sold-out表示は購入機能後に実装するためコメントアウト
       <div class="sold-out">
@@ -18,10 +19,10 @@
     </div>
     <div class="item-price-box">
       <span class="item-price">
-        ¥ <%= @item.price %>
+        ¥ <%= 9999999  %> <!-- @item.price-->
       </span>
       <span class="item-postage">
-        <%= @item.shipping_fee_burden.name %>
+        <%= "配送料の負担"  %> <!-- @item.shipping_fee_burden.name-->
       </span>
     </div>
 
