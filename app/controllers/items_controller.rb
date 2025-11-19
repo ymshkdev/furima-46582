@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only:  [:new, :create, :destroy]
+  before_action :set_item, only: [:destroy]
+  before_action :authorize_user, only: [:destroy]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -34,12 +36,28 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
+  def destroy
+   @item.destroy
+   redirect_to root_path
+  end
+
   private
 
   def item_params
-    params.require(:item).permit(
-      :title, :description, :category_id, :condition_id, 
-      :shipping_fee_burden_id, :prefecture_id, :shipping_day_id, :price, :image
+   params.require(:item).permit(
+    :title, :description, :category_id, :condition_id, 
+    :shipping_fee_burden_id, :prefecture_id, :shipping_day_id, :price, :image
     ).merge(user_id: current_user.id)
   end
+ 
+  def set_item
+   @item = Item.find(params[:id])
+  end
+
+ def authorize_user
+  unless @item.user_id == current_user.id
+  redirect_to root_path, alert: "他人の商品は操作できません"
+  end
+ end
+
 end
