@@ -1,6 +1,10 @@
 class ItemsController < ApplicationController
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   before_action :authenticate_user!, only:  [:new, :create, :destroy]
+=======
+  before_action :authenticate_user!, only: [:new, :create,:destroy]
+>>>>>>> Stashed changes
 =======
   before_action :authenticate_user!, only: [:new, :create,:destroy]
 >>>>>>> Stashed changes
@@ -42,8 +46,14 @@ class ItemsController < ApplicationController
 
   def destroy
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
    @item.destroy
    redirect_to root_path
+=======
+    @item = Item.find(params[:id])
+    @item.delete
+    redirect_to root_path
+>>>>>>> Stashed changes
 =======
     @item = Item.find(params[:id])
     @item.delete
