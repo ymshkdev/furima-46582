@@ -1,15 +1,7 @@
 class ItemsController < ApplicationController
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  before_action :authenticate_user!, only:  [:new, :create, :destroy]
-=======
-  before_action :authenticate_user!, only: [:new, :create,:destroy]
->>>>>>> Stashed changes
-=======
-  before_action :authenticate_user!, only: [:new, :create,:destroy]
->>>>>>> Stashed changes
-  before_action :set_item, only: [:destroy]
-  before_action :authorize_user, only: [:destroy]
+ before_action :authenticate_user!, only:  [:new, :create,:edit, :update, :destroy]
+  before_action :set_item, only: [:edit, :update,:show,:destroy]
+  before_action :authorize_user, only: [:edit, :update,:destroy]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -41,24 +33,11 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
   end
 
   def destroy
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
    @item.destroy
    redirect_to root_path
-=======
-    @item = Item.find(params[:id])
-    @item.delete
-    redirect_to root_path
->>>>>>> Stashed changes
-=======
-    @item = Item.find(params[:id])
-    @item.delete
-    redirect_to root_path
->>>>>>> Stashed changes
   end
 
   private
