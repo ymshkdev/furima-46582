@@ -1,12 +1,11 @@
 class OrdersController < ApplicationController
   before_action :set_item
   before_action :authenticate_user!
+  before_action :redirect_if_invalid_user, only: [:index, :create]
   
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @order_address = OrderAddress.new
-    # 出品者は購入させない＆売却済みはアクセス不可
-    redirect_to root_path if current_user.id == @item.user_id || @item.order.present?
   end
   
   def create
@@ -31,6 +30,13 @@ class OrdersController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def redirect_if_invalid_user
+   # 出品者 or 売却済みならトップへ
+   if current_user.id == @item.user_id || @item.order.present?
+    redirect_to root_path
+   end
   end
 
   def pay_item
